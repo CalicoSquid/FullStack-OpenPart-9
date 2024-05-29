@@ -1,8 +1,7 @@
-import { parseExerciseArguments as parseArguments } from "./utils/parseArguments";
 import { exerciseValues } from "./utils/interfaces";
 
 
-const exerciseCalculator = (
+export const exerciseCalculator = (
   data: number[],
   target: number
 ): exerciseValues => {
@@ -29,15 +28,3 @@ const exerciseCalculator = (
   };
 };
 
-try {
-  const parsedArgs = parseArguments(process.argv);
-  const data = parsedArgs.data;
-  const target = parsedArgs.target;
-  console.log(exerciseCalculator(data, target));
-} catch (error: unknown) {
-  let errorMessage = "Something bad happened.";
-  if (error instanceof Error) {
-    errorMessage += " Error: " + error.message;
-  }
-  console.log(errorMessage);
-}

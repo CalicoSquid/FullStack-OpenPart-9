@@ -1,8 +1,7 @@
-import { parseBmiArguments as parseArgs } from './utils/parseArguments';
-
-const bmiCalc = (height: number, weight: number): string => {
-    const heightInMeters = height / 100;
-    const bmi = parseInt((weight / (heightInMeters * heightInMeters)).toFixed(2));
+import { BmiValues } from "./utils/interfaces";
+export const bmiCalc = (args: BmiValues): string => {
+    const heightInMeters = args.height / 100;
+    const bmi = parseInt((args.weight / (heightInMeters * heightInMeters)).toFixed(2));
 
     if (bmi < 18.5) {
         return `Your BMI is ${bmi} and you are underweight.`;
@@ -17,12 +16,4 @@ const bmiCalc = (height: number, weight: number): string => {
     };
 }
 
-try {
-    const result = bmiCalc(parseArgs(process.argv).height, parseArgs(process.argv).weight);
-    console.log(result);
-} catch (error: unknown) {
-    let errorMessage = 'Something bad happened.';
-    if (error instanceof Error) {
-        errorMessage += ' Error: ' + error.message;
-    }
-}
+
