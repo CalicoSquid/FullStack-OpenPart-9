@@ -33,7 +33,6 @@ app.get("/bmi", (req, res) => {
 })
 
 app.post("/exercises", (req, res) => {
-    console.log(req.body);
     const data = req.body.daily_exercises as number[];
     const target = req.body.target as number;
 
