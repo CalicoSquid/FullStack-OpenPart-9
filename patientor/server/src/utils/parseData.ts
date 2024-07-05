@@ -1,4 +1,4 @@
-import { NewPatient, Gender } from "../types";
+import { NewPatient, Gender, Entry } from "../types";
 
 export default function parseData(data: unknown): NewPatient {
   if (!isObject(data)) {
@@ -14,6 +14,7 @@ export default function parseData(data: unknown): NewPatient {
     ssn: parseSsn(data.ssn),
     gender: parseGender(data.gender),
     occupation: parseOccupation(data.occupation),
+    entries: parseEntries(data.entries),
   };
 }
 
@@ -52,6 +53,21 @@ const parseOccupation = (data: unknown): string => {
   return data;
 };
 
+const parseEntries = (data: unknown): Entry[] => {
+  if (!Array.isArray(data)) {
+    throw new Error("Entries should be an array");
+  }
+
+  const entries = data.map((entry) => {
+    if (!isValidEntry(entry)) {
+      throw new Error("Invalid entry");
+    }
+    return entry;
+  });
+
+  return entries;
+};
+
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
 };
@@ -84,4 +100,18 @@ const validateRequiredFields = (
       throw new Error(`Missing required field: ${field}`);
     }
   }
+};
+
+const isValidEntry = (data: unknown): data is Entry => {
+  if (!isObject(data)) return false;
+
+  if ("type" in data) {
+    return (
+      data.type === "HealthCheck" ||
+      data.type === "OccupationalHealthcare" ||
+      data.type === "Hospital"
+    );
+  }
+
+  return false;
 };
